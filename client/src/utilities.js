@@ -2,7 +2,7 @@
 import * as tf from "@tensorflow/tfjs";
 
 const DEFAULT_OBJECT = {
-    "name": "sku",
+    "name": "unclassified",
     "color_style": "lime"
 }
 
@@ -104,7 +104,6 @@ export const get_unique_colors = (num_colors) => {
 export const draw_objects = async (
     image,
     boxes,
-    classes,
     scores,
     model_classification,
     threshold_detection,
@@ -120,7 +119,7 @@ export const draw_objects = async (
 
     for (let i = 0; i < actual_boxes.length; i++) {
         const product = await classify_product(model_classification, image, actual_boxes[i])
-
+        tf.dispose(image)
         requestAnimationFrame(() => {
             draw_box(product, ctx)
         })
